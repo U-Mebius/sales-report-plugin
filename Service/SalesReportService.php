@@ -162,7 +162,7 @@ class SalesReportService
             ->from('Eccube\Entity\Order', 'o')
             ->andWhere('o.del_flg = 0')
             ->andWhere('o.order_date >= :start')
-            ->andWhere('o.order_date <= :end')
+            ->andWhere('o.order_date < :end')
             ->andWhere('o.OrderStatus NOT IN (:excludes)')
             ->setParameter(':excludes', $excludes)
             ->setParameter(':start', $this->termStart)
