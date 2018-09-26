@@ -28,7 +28,6 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
                     $('input[id$=_start]').datetimepicker({
                         locale: '{{ eccube_config.locale }}',
                         format: 'YYYY-MM-DD',
-                        defaultDate: '{{ 'now'|date('Y-m-01') }}',
                         useCurrent: false,
                         buttons: {
                             showToday: true,
@@ -39,7 +38,6 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
                     $('input[id$=_end]').datetimepicker({
                         locale: '{{ eccube_config.locale }}',
                         format: 'YYYY-MM-DD',
-                        defaultDate: '{{ 'now'|date('Y-m-d') }}',
                         useCurrent: false,
                         buttons: {
                             showToday: true,

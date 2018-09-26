@@ -63,7 +63,7 @@ class SalesReportType extends AbstractType
                 'input' => 'datetime',
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
-                // 'data' => new \DateTime('first day of this month'),
+                'data' => new \DateTime('first day of this month'),
                 'attr' => [
                     'class' => 'datetimepicker-input',
                     'data-target' => '#'.$this->getBlockPrefix().'_term_start',
@@ -76,7 +76,7 @@ class SalesReportType extends AbstractType
                 'input' => 'datetime',
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
-                // 'data' => new \DateTime(),
+                'data' => new \DateTime(),
                 'attr' => [
                     'class' => 'datetimepicker-input',
                     'data-target' => '#'.$this->getBlockPrefix().'_term_end',
