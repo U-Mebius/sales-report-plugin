@@ -113,14 +113,14 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
                                 <td class="align-middle pl-3">{{ age == 999 ? 'sales_report.admin.age.list.001'|trans : age~'sales_report.admin.age.list.002'|trans }}</td>
                                 <td class="align-middle text-center pl-3">{{ row.time|number_format }}</td>
                                 <td class="price-format text-right align-middle">
-                                    {{ row.total|number_format }}
+                                    {{ row.total|price }}
                                     <span class="d-none">{{ row.total }}</span>
                                 </td>
                                 <td class="price-format text-right align-middle">
                                     {% if row.time > 0 %}
-                                        {{ (row.total / row.time)|round(2, 'floor')|number_format }}
+                                        {{ (row.total / row.time)|round(2, 'floor')|price }}
                                     {% else %}
-                                        0
+                                        {{ 0|price }}
                                     {% endif %}
                                     <span class="d-none">
                                                     {% if row.time > 0 %}

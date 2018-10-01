@@ -158,25 +158,25 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
                         {% for date, row in rawData %}
                             <tr>
                                 <td class="align-middle text-center pl-3">{{ date }}</td>
-                                <td class="align-middle text-center pl-3">{{ row.time|number_format }}</td>
+                                <td class="align-middle text-center pl-3">{{ row is empty ? '' : row.time|number_format }}</td>
 
-                                <td class="align-middle text-center pl-3">{{ row.male|number_format }}</td>
-                                <td class="align-middle text-center pl-3">{{ row.female|number_format }}</td>
-                                <td class="align-middle text-center pl-3">{{ row.other|number_format }}</td>
-                                <td class="align-middle text-center pl-3">{{ row.member_male|number_format }}</td>
-                                <td class="align-middle text-center pl-3">{{ row.nonmember_male|number_format }}</td>
-                                <td class="align-middle text-center pl-3">{{ row.member_female|number_format }}</td>
-                                <td class="align-middle text-center pl-3">{{ row.nonmember_female|number_format }}</td>
+                                <td class="align-middle text-center pl-3">{{ row is empty ? '' : row.male|number_format }}</td>
+                                <td class="align-middle text-center pl-3">{{ row is empty ? '' : row.female|number_format }}</td>
+                                <td class="align-middle text-center pl-3">{{ row is empty ? '' : row.other|number_format }}</td>
+                                <td class="align-middle text-center pl-3">{{ row is empty ? '' : row.member_male|number_format }}</td>
+                                <td class="align-middle text-center pl-3">{{ row is empty ? '' : row.nonmember_male|number_format }}</td>
+                                <td class="align-middle text-center pl-3">{{ row is empty ? '' : row.member_female|number_format }}</td>
+                                <td class="align-middle text-center pl-3">{{ row is empty ? '' : row.nonmember_female|number_format }}</td>
 
                                 <td class="price-format text-right">
-                                    {{ row.price|number_format }}
-                                    <span class="d-none">{{ row.price }}</span>
+                                    {{ row is empty ? '' : row.price|price }}
+                                    <span class="d-none">{{ row is empty ? '' : row.price }}</span>
                                 </td>
                                 <td class="price-format text-right">
-                                    {% if row.time > 0 %}
-                                        {{ (row.price / row.time)|round(2, 'floor')|number_format }}
+                                    {% if row is not empty and row.time > 0 %}
+                                        {{ (row.price / row.time)|round(2, 'floor')|price }}
                                     {% else %}
-                                        0
+                                        {{ 0|price }}
                                     {% endif %}
                                     <span class="d-none">
                                                     {% if row.time > 0 %}
