@@ -195,8 +195,8 @@ class SalesReportService
             ->andWhere('o.order_date < :end')
             ->andWhere('o.OrderStatus NOT IN (:excludes)')
             ->setParameter(':excludes', $excludes)
-            ->setParameter(':start', $this->termStart)
-            ->setParameter(':end', $this->termEnd);
+            ->setParameter(':start', new DateTime($this->termStart))
+            ->setParameter(':end', new DateTime($this->termEnd));
 
         log_info('SalesReport Plugin : search parameters ', ['From' => $this->termStart, 'To' => $this->termEnd]);
         $result = [];
