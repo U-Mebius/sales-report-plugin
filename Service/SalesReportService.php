@@ -197,6 +197,9 @@ class SalesReportService
             ->setParameter(':excludes', $excludes)
             ->setParameter(':start', new DateTime($this->termStart))
             ->setParameter(':end', new DateTime($this->termEnd));
+        if ($this->reportType === 'product') {
+            $qb->addSelect('oi')->innerJoin("o.OrderItems", "oi", "WITH", "oi.OrderItemType = 1");
+        }
 
         log_info('SalesReport Plugin : search parameters ', ['From' => $this->termStart, 'To' => $this->termEnd]);
         $result = [];
@@ -561,17 +564,13 @@ class SalesReportService
         $backgroundColor = [];
         $products = [];
 
-        $sql = 'Select od.product_class_id From dtb_order_item od Where od.id = :order_detail_id';
-        $stmt = $this->entityManager->getConnection()->prepare($sql);
         foreach ($data as $Order) {
             /* @var $Order \Eccube\Entity\Order */
-            $OrderDetails = $Order->getOrderItems();
-            foreach ($OrderDetails as $OrderDetail) {
+            foreach ($Order['OrderItems'] as $OrderDetail) {
                 // Get product class id
-                $params['order_detail_id'] = $OrderDetail->getId();
-                $stmt->execute($params);
-                $productClassId = $stmt->fetch(\PDO::FETCH_COLUMN);
-                if ($productClassId) {
+                $productClass = $OrderDetail->getProductClass();
+                if ($productClass) {
+                    $productClassId = $productClass->getId();
                     if (!array_key_exists($productClassId, $products)) {
                         $products[$productClassId] = [
                             'OrderDetail' => $OrderDetail,
