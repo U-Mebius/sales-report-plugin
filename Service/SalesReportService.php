@@ -472,8 +472,6 @@ class SalesReportService
             $price[$date] = 0;
         }
 
-        $sql = 'Select o.customer_id From dtb_order o Where o.id = :order_id';
-        $stmt = $this->entityManager->getConnection()->prepare($sql);
         foreach ($data as $Order) {
             /* @var $Order \Eccube\Entity\Order */
             $orderDate = $Order
@@ -494,11 +492,7 @@ class SalesReportService
             $raw[$orderDate]['male'] += ($sexId == self::MALE);
             $raw[$orderDate]['female'] += ($sexId == self::FEMALE);
 
-            // Get customer id
-            $params['order_id'] = $Order->getId();
-            $stmt->execute($params);
-            $customerId = $stmt->fetch(\PDO::FETCH_COLUMN);
-            if ($customerId) {
+            if ($Order->getCustomer()) {
                 $raw[$orderDate]['member_male'] += ($sexId == self::MALE);
                 $raw[$orderDate]['member_female'] += ($sexId == self::FEMALE);
             } else {
