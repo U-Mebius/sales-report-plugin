@@ -33,6 +33,7 @@ services:
 
 # Install scripts. (runs after repo cloning)
 install:
+  - ps: Set-Service wuauserv -StartupType Manual
   - cd  %PLUGIN_BASE_DIR%
   - git archive -o %PLUGIN_CODE%.tar.gz HEAD
 
