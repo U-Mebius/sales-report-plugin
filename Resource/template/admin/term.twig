@@ -150,6 +150,9 @@ Copyright (C) EC-CUBE CO.,LTD. All Rights Reserved.
                             <th class="border-top-0 py-2 text-center">{{ 'sales_report.admin.list.label.007'|trans }}</th>
                             <th class="border-top-0 py-2 text-center">{{ 'sales_report.admin.list.label.008'|trans }}</th>
                             <th class="border-top-0 py-2 text-center">{{ 'sales_report.admin.list.label.009'|trans }}</th>
+                            <th class="border-top-0 py-2 text-center">値引き</th>
+                            <th class="border-top-0 py-2 text-center">送料</th>
+                            <th class="border-top-0 py-2 text-center">ポイント利用</th>
                             <th class="border-top-0 py-2 text-right">{{ 'sales_report.admin.list.label.010'|trans }}</th>
                             <th class="border-top-0 py-2 text-right">{{ 'sales_report.admin.list.label.011'|trans }}</th>
                         </tr>
@@ -168,11 +171,21 @@ Copyright (C) EC-CUBE CO.,LTD. All Rights Reserved.
                                 <td class="align-middle text-center pl-3">{{ row is empty ? '' : row.member_female|number_format }}</td>
                                 <td class="align-middle text-center pl-3">{{ row is empty ? '' : row.nonmember_female|number_format }}</td>
 
-                                <td class="price-format text-right">
+                                <td class="align-middle text-center pl-3">
+                                    {{ row.discount|number_format }}
+                                </td>
+                                <td class="align-middle text-center pl-3">
+                                    {{ row.delivery_fee|number_format }}
+                                </td>
+                                <td class="align-middle text-center pl-3">
+                                    {{ row.point_use|number_format }}
+                                </td>
+
+                                <td class="align-middle text-center pl-3">
                                     {{ row is empty ? '' : row.price|price }}
                                     <span class="d-none">{{ row is empty ? '' : row.price }}</span>
                                 </td>
-                                <td class="price-format text-right">
+                                <td class="align-middle text-center pl-3">
                                     {% if row is not empty and row.time > 0 %}
                                         {{ (row.price / row.time)|round(2, 'floor')|price }}
                                     {% else %}

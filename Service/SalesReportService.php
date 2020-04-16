@@ -465,6 +465,9 @@ class SalesReportService
                 'nonmember_male' => 0,
                 'member_female' => 0,
                 'nonmember_female' => 0,
+                'discount' => 0,
+                'delivery_fee' => 0,
+                'point_use' => 0,
             ];
             $price[$date] = 0;
         }
@@ -502,6 +505,11 @@ class SalesReportService
                 $raw[$orderDate]['nonmember_male'] += ($sexId == self::MALE);
                 $raw[$orderDate]['nonmember_female'] += ($sexId == self::FEMALE);
             }
+
+            $raw[$orderDate]['discount'] += $Order->getDiscount();
+            $raw[$orderDate]['delivery_fee'] += $Order->getDeliveryFeeTotal();
+            $usePoint = $Order->getUsePoint();
+            $raw[$orderDate]['point_use'] += abs($usePoint);
 
             ++$orderNumber;
         }
