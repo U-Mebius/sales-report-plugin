@@ -168,6 +168,16 @@ Copyright (C) EC-CUBE CO.,LTD. All Rights Reserved.
                                     {{ form_errors(form.term_end) }}
                                 </div>
                             </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-sm-2"><span>支払方法</span></div>
+                                <div class="col-auto col-lg-auto form-inline">
+                                    {{ form_widget(form.Payment, {'attr': {'placeholder': 'sales_report.admin.placholder'|trans }}) }}
+                                    {{ form_errors(form.Payment) }}
+                                </div>
+                            </div>
+
+
                         </div>
                     </div>
 

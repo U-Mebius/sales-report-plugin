@@ -13,6 +13,7 @@
 
 namespace Plugin\SalesReport4\Form\Type;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -98,6 +99,16 @@ class SalesReportType extends AbstractType
                 'constraints' => [
                     new Assert\NotBlank(),
                 ],
+            ])
+            ->add('Payment', EntityType::class, [
+                'class' => 'Eccube\Entity\Payment',
+                'choice_label' => 'method',
+                'expanded' => false,
+                'label' => '支払方法',
+                'placeholder' => '選択してください',
+                'constraints' => [
+                ],
+                'required' => false,
             ])
             ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
                 $form = $event->getForm();

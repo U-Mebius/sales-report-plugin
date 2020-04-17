@@ -19,6 +19,7 @@ use Doctrine\ORM\NoResultException;
 use Eccube\Application;
 use Eccube\Common\EccubeConfig;
 use Eccube\Entity\Master\OrderStatus;
+use Eccube\Entity\Payment;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -50,6 +51,11 @@ class SalesReportService
      * @var string
      */
     private $unit;
+
+    /**
+     * @var Payment|null
+     */
+    private $Payment;
 
     /**
      * @var array
@@ -169,6 +175,10 @@ class SalesReportService
             $this->unit = $request['unit'];
         }
 
+        if (isset($request['Payment'])) {
+            $this->Payment = $request['Payment'];
+        }
+
         return $this;
     }
 
@@ -197,6 +207,12 @@ class SalesReportService
             ->setParameter(':excludes', $excludes)
             ->setParameter(':start', new DateTime($this->termStart))
             ->setParameter(':end', new DateTime($this->termEnd));
+
+        if (isset($this->Payment)) {
+            $qb
+                ->andWhere('o.Payment = :Payment')
+                ->setParameter('Payment', $this->Payment->getId());
+        }
 
         log_info('SalesReport Plugin : search parameters ', ['From' => $this->termStart, 'To' => $this->termEnd]);
         $result = [];
