@@ -34,10 +34,20 @@ class SalesReportNav implements EccubeNav
                         'url' => 'sales_report_admin_term',
                         'name' => 'sales_report.admin.nav.002',
                     ],
+                    'sales_report_admin_product_all' => [
+                        'id' => 'sales_report_admin_product_all',
+                        'url' => 'sales_report_admin_product_all',
+                        'name' => 'sales_report.admin.nav.005',
+                    ],
                     'sales_report_admin_product' => [
                         'id' => 'sales_report_admin_product',
                         'url' => 'sales_report_admin_product',
                         'name' => 'sales_report.admin.nav.003',
+                    ],
+                    'sales_report_admin_product_category' => [
+                        'id' => 'sales_report_admin_product_category',
+                        'url' => 'sales_report_admin_product_category',
+                        'name' => 'sales_report.admin.nav.006',
                     ],
                     'sales_report_admin_age' => [
                         'id' => 'sales_report_admin_age',

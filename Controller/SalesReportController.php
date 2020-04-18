@@ -65,6 +65,33 @@ class SalesReportController extends AbstractController
     }
 
     /**
+     * 商品別集計.
+     *
+     * @param Request $request
+     * @Route("%eccube_admin_route%/plugin/sales_report/product_all", name="sales_report_admin_product_all")
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function product_all(Request $request)
+    {
+        return $this->response($request, 'product_all');
+    }
+
+
+    /**
+     * カテゴリ別集計.
+     *
+     * @param Request $request
+     * @Route("%eccube_admin_route%/plugin/sales_report/product_category", name="sales_report_admin_product_category")
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function product_category(Request $request)
+    {
+        return $this->response($request, 'product_category');
+    }
+
+    /**
      * 年代別集計.
      *
      * @param Request $request

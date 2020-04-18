@@ -82,5 +82,7 @@ sales_report.admin.ageCsvHeader.004: 購入平均
 sales_report.admin.generation: 代
 sales_report.admin.nav.001: 売上集計
 sales_report.admin.nav.002: 期間別集計
-sales_report.admin.nav.003: 商品別集計
+sales_report.admin.nav.003: 商品規格別集計
 sales_report.admin.nav.004: 年代別集計
+sales_report.admin.nav.005: 商品別集計
+sales_report.admin.nav.006: カテゴリ別集計

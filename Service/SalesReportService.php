@@ -372,6 +372,12 @@ class SalesReportService
             case 'product':
                 $result = $this->convertByProduct($data);
                 break;
+            case 'product_all':
+                $result = $this->convertByProductAll($data);
+                break;
+            case 'product_category':
+                $result = $this->convertByProductCategory($data);
+                break;
             case 'age':
                 $result = $this->convertByAge($data);
                 break;
@@ -622,6 +628,166 @@ class SalesReportService
             $label[$count] = $product['OrderDetail']->getProductName().' ';
             $label[$count] .= $product['OrderDetail']->getClassCategoryName1().' ';
             $label[$count] .= $product['OrderDetail']->getClassCategoryName2();
+            $graphData[$count] = $product['total'];
+            ++$count;
+
+            if ($maxDisplayCount <= $count) {
+                break;
+            }
+        }
+
+        $result = [
+            'labels' => $label,
+            'datasets' => [
+                'data' => $graphData,
+                'backgroundColor' => $backgroundColor,
+                'borderWidth' => 0,
+            ],
+        ];
+
+        //return null and not display in screen
+        if ($count == 0) {
+            return [
+                'raw' => null,
+                'graph' => null,
+            ];
+        }
+
+        return [
+            'raw' => $products,
+            'graph' => $result,
+        ];
+    }
+
+    /**
+     * product sale report.
+     *
+     * @param array $data
+     *
+     * @return array
+     */
+    private function convertByProductAll($data)
+    {
+        $label = [];
+        $graphData = [];
+        $backgroundColor = [];
+        $products = [];
+
+        $sql = 'Select od.product_class_id From dtb_order_item od Where od.id = :order_detail_id';
+        $stmt = $this->entityManager->getConnection()->prepare($sql);
+        foreach ($data as $Order) {
+            /* @var $Order \Eccube\Entity\Order */
+            $OrderDetails = $Order->getProductOrderItems();
+            foreach ($OrderDetails as $OrderDetail) {
+                $Product = $OrderDetail->getProduct();
+
+                $id = $Product->getId();
+                if (!array_key_exists($id, $products)) {
+                    $products[$id] = [
+                        'Product' => $Product,
+                        'total' => 0,
+                        'quantity' => 0,
+                        'price' => 0,
+                        'time' => 0,
+                    ];
+                }
+                $products[$id]['quantity'] += $OrderDetail->getQuantity();
+                $products[$id]['total'] += $OrderDetail->getTotalPrice();
+                ++$products[$id]['time'];
+            }
+        }
+        //sort by total money
+        $count = 0;
+        $maxDisplayCount = $this->eccubeConfig['sales_report_product_maximum_display'];
+        $products = $this->sortBy('total', $products);
+        log_info('SalesReport Plugin : product report ', ['result count' => count($products)]);
+        foreach ($products as $key => $product) {
+            $backgroundColor[$count] = $this->getColor($count);
+
+            $label[$count] = $product['Product']->getName().' ';
+            $label[$count] .= $product['Product']->getSupplier() ? $product['Product']->getSupplier()->getName() : '';
+            $graphData[$count] = $product['total'];
+            ++$count;
+
+            if ($maxDisplayCount <= $count) {
+                break;
+            }
+        }
+
+        $result = [
+            'labels' => $label,
+            'datasets' => [
+                'data' => $graphData,
+                'backgroundColor' => $backgroundColor,
+                'borderWidth' => 0,
+            ],
+        ];
+
+        //return null and not display in screen
+        if ($count == 0) {
+            return [
+                'raw' => null,
+                'graph' => null,
+            ];
+        }
+
+        return [
+            'raw' => $products,
+            'graph' => $result,
+        ];
+    }
+
+    /**
+     * product sale report.
+     *
+     * @param array $data
+     *
+     * @return array
+     */
+    private function convertByProductCategory($data)
+    {
+        $label = [];
+        $graphData = [];
+        $backgroundColor = [];
+        $products = [];
+
+        $sql = 'Select od.product_class_id From dtb_order_item od Where od.id = :order_detail_id';
+        $stmt = $this->entityManager->getConnection()->prepare($sql);
+        foreach ($data as $Order) {
+            /* @var $Order \Eccube\Entity\Order */
+            $OrderDetails = $Order->getProductOrderItems();
+            foreach ($OrderDetails as $OrderDetail) {
+                $Product = $OrderDetail->getProduct();
+                foreach ($Product->getProductCategories() as $productCategory) {
+                    $Category = $productCategory->getCategory();
+
+                    if ($Category) {
+                        $id = $Category->getId();
+                        if (!array_key_exists($id, $products)) {
+                            $products[$Category->getId()] = [
+                                'Category' => $Category,
+                                'total' => 0,
+                                'quantity' => 0,
+                                'price' => 0,
+                                'time' => 0,
+                            ];
+                        }
+                        $products[$id]['quantity'] += $OrderDetail->getQuantity();
+                        $products[$id]['total'] += $OrderDetail->getTotalPrice();
+                        ++$products[$id]['time'];
+                    }
+                }
+            }
+        }
+        //sort by total money
+        $count = 0;
+        $maxDisplayCount = $this->eccubeConfig['sales_report_product_maximum_display'];
+        $products = $this->sortBy('total', $products);
+        log_info('SalesReport Plugin : product report ', ['result count' => count($products)]);
+        foreach ($products as $key => $product) {
+            $backgroundColor[$count] = $this->getColor($count);
+
+            $label[$count] = $product['Category']->getName();
             $graphData[$count] = $product['total'];
             ++$count;
 
